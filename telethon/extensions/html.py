@@ -121,6 +121,8 @@ def parse(html: str) -> Tuple[str, List[TypeMessageEntity]]:
     parser = HTMLToTelegramParser()
     parser.feed(add_surrogate(html))
     text = strip_text(parser.text, parser.entities)
+    parser.entities.reverse()
+    parser.entities.sort(key=lambda entity: entity.offset)
     return del_surrogate(text), parser.entities
 
 
@@ -164,18 +166,18 @@ def unparse(text: str, entities: Iterable[TypeMessageEntity]) -> str:
 
     text = add_surrogate(text)
     insert_at = []
-    for entity in entities:
+    for i, entity in enumerate(entities):
         s = entity.offset
         e = entity.offset + entity.length
         if delimiter := ENTITY_TO_FORMATTER.get(type(entity), None):
             if callable(delimiter):
                 delimiter = delimiter(entity, text[s:e])
-            insert_at.extend(((s, delimiter[0]), (e, delimiter[1])))
-    insert_at.sort(key=lambda t: t[0])
+            insert_at.extend(((s, i, delimiter[0]), (e, -i, delimiter[1])))
+    insert_at.sort(key=lambda t: (t[0], t[1]))
     next_escape_bound = len(text)
     while insert_at:
         # Same logic as markdown.py
-        at, what = insert_at.pop()
+        at, _, what = insert_at.pop()
         while within_surrogate(text, at):
             at += 1
 
