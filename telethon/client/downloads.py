@@ -268,6 +268,7 @@ class DownloadMethods:
                     if hasattr(entity, 'chat_photo')
                     else None
                 )
+
             possible_names.extend(
                 getattr(entity, attr, None)
                 for attr in ('username', 'first_name', 'title')

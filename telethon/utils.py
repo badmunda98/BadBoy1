@@ -473,7 +473,9 @@ def get_input_media(
 
     if isinstance(media, (types.InputFile, types.InputFileBig)):
         if is_photo:
+
             return types.InputMediaUploadedPhoto(file=media, ttl_seconds=ttl, spoiler=spoiler)
+
         attrs, mime = get_attributes(
             media,
             attributes=attributes,
@@ -484,7 +486,9 @@ def get_input_media(
         )
         return types.InputMediaUploadedDocument(
             file=media, mime_type=mime, attributes=attrs, force_file=force_document,
+
             ttl_seconds=ttl, spoiler=spoiler)
+
 
     if isinstance(media, types.MessageMediaGame):
         return types.InputMediaGame(id=types.InputGameID(
@@ -826,12 +830,14 @@ def _get_extension(file):
         return os.path.splitext(file)[-1]
     elif isinstance(file, pathlib.Path):
         return file.suffix
+
     elif isinstance(file, bytes):
         kind = imghdr.what(io.BytesIO(file))
         return f'.{kind}' if kind else ''
     elif isinstance(file, io.IOBase) and not isinstance(file, io.TextIOBase) and file.seekable():
         kind = imghdr.what(file)
         return f'.{kind}' if kind is not None else ''
+
     elif getattr(file, 'name', None):
         # Note: ``file.name`` works for :tl:`InputFile` and some `IOBase`
         return _get_extension(file.name)
