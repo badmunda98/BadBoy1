@@ -124,10 +124,8 @@ class TLArg:
             self.type = arg_type.lstrip('!')
 
             if flag_match := re.match(r'(\w+).(\d+)\?([\w<>.]+)', self.type):
-
-                self.flag = flag_match[1]
-                self.flag_index = int(flag_match[2])
-
+                self.flag = flag_match.group(1)
+                self.flag_index = int(flag_match.group(2))
                 # Update the type to match the exact type, not the "flagged" one
                 self.type = flag_match[3]
 
