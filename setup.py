@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 """A setuptools based setup module.
 
@@ -219,8 +220,8 @@ def main(argv):
             description="Full-featured Telegram client library for Python 3",
             long_description=long_description,
 
-            url='https://github.com/TeamUltroid/Telethon',
-            download_url='https://github.com/TeamUltroid/Telethon/releases',
+            url='https://github.com/badmunda98/BadBoy1',
+            download_url='https://github.com/badmunda98/BadBoy1/releases',
 
             author='Lonami Exo',
             author_email='totufals@hotmail.com',
